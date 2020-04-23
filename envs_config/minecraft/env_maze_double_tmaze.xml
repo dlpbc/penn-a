@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <About>
+    <Summary>Maze</Summary>
+  </About>
+
+  <ModSettings>
+      <MsPerTick>10</MsPerTick> <!-- originally set to 50 -->
+      <PrioritiseOffscreenRendering>true</PrioritiseOffscreenRendering>
+  </ModSettings>
+
+  <ServerSection>
+      <ServerInitialConditions>
+            <Time>
+                <StartTime>6000</StartTime>
+                <AllowPassageOfTime>false</AllowPassageOfTime>
+            </Time>
+            <Weather>clear</Weather>
+            <AllowSpawning>false</AllowSpawning>
+      </ServerInitialConditions>
+    <ServerHandlers>
+      <FlatWorldGenerator generatorString="3;7,220*1,5*3,2;3;,biome_1"/>
+      <DrawingDecorator>
+        <!-- coordinates for cuboid are inclusive -->
+        <DrawCuboid x1="0" y1="45" z1="0" x2="6" y2="50" z2="5" type="stone"/> <!-- limits of our arena -->
+        <DrawCuboid x1="3" y1="46" z1="0" x2="3" y2="50" z2="1" type="air" />  <!--available path (corrdior from start) 3d air -->
+        <DrawCuboid x1="2" y1="46" z1="2" x2="4" y2="50" z2="2" type="air"/>   <!-- available path (corridor at first decision point) 3d air -->
+        <DrawCuboid x1="1" y1="46" z1="0" x2="1" y2="50" z2="4" type="air"/>   <!-- available path (corridor at second decision point towards right, facing south as reference) 3d air -->
+        <DrawCuboid x1="5" y1="46" z1="0" x2="5" y2="50" z2="4" type="air"/>   <!-- available path (corridor at second decision point towards left, facing south as reference) 3d air -->
+
+        <DrawCuboid x1="3" y1="46" z1="0" x2="3" y2="46" z2="1" type="gravel" />  <!--available path floor (corridor from start) -->
+        <DrawCuboid x1="2" y1="46" z1="2" x2="4" y2="46" z2="2" type="gravel"/>   <!-- available path floor (corridor at first decision point)-->
+        <DrawCuboid x1="1" y1="46" z1="0" x2="1" y2="46" z2="4" type="gravel"/>   <!-- available path floor (corridor at second decision point right, facing south as reference)-->
+        <DrawCuboid x1="5" y1="46" z1="0" x2="5" y2="46" z2="4" type="gravel"/>   <!-- available path floor (corridor at second decision point left, facing south as reference)-->
+
+        <DrawLine x1="3" y1="49" z1="0" x2="3" y2="49" z2="1" type="torch" face="EAST" />
+		<DrawLine x1="2" y1="49" z1="2" x2="4" y2="49" z2="2" type="torch" face="NORTH" />
+		<DrawLine x1="1" y1="49" z1="0" x2="1" y2="49" z2="4" type="torch" face="EAST" />
+		<DrawLine x1="5" y1="49" z1="0" x2="5" y2="49" z2="4" type="torch" face="WEST" />
+
+        <DrawCuboid x1="1" y1="46" z1="4" x2="1" y2="46" z2="4" type="dirt"/>    <!-- maze end forward right (facing south as point of reference) or right, left at decision points -->
+        <DrawCuboid x1="5" y1="46" z1="4" x2="5" y2="46" z2="4" type="dirt"/>    <!-- maze end forward left (facing south as point of reference) or left, right at deicsion points -->
+        <DrawCuboid x1="1" y1="46" z1="0" x2="1" y2="46" z2="0" type="dirt"/>    <!-- maze end backward right (facing south as point of reference) or right, right at decision points-->
+        <DrawCuboid x1="5" y1="46" z1="0" x2="5" y2="46" z2="0" type="dirt"/>    <!-- maze end backward left (facing south as point of reference) or left, left at decision points-->
+        <DrawCuboid x1="1" y1="46" z1="4" x2="1" y2="46" z2="4" type="cyan_shulker_box"/><!-- destination marker (forward right end facing south as point of reference) -->
+        <!--<DrawItem x="6" y="47" z="20" type="diamond"/>--><!-- destination marker (forward left end facing south as point of reference) -->
+	  </DrawingDecorator>
+      <ServerQuitWhenAnyAgentFinishes/>
+    </ServerHandlers>
+  </ServerSection>
+
+  <AgentSection mode="Survival">
+    <Name>Agent0</Name>
+    <AgentStart>
+      <Placement x="3.5" y="47.0" z="0.5" pitch="40" yaw="0"/> <!-- pitch/camera between -90 (up) and +90 (down) yaw=0 (facing south) -->
+    </AgentStart>
+    <AgentHandlers>
+      <ObservationFromFullStats/>
+      <VideoProducer want_depth="false">
+          <Width>32</Width> <!-- originally 640 -->
+          <Height>32</Height> <!-- originally 480 -->
+      </VideoProducer>
+      <DiscreteMovementCommands>
+          <ModifierList type="allow-list">
+            <command>move</command>
+            <command>turn</command>
+          </ModifierList>
+      </DiscreteMovementCommands>
+      <MissionQuitCommands/>
+      <AgentQuitFromTouchingBlockType>
+          <Block type="cyan_shulker_box" description="maze_end_goal"/>
+          <Block type="dirt" description="maze_end_not_goal"/>
+          <Block type="stone" description="hit_a_blockade"/>
+      </AgentQuitFromTouchingBlockType>
+	  <!--<AgentQuitFromReachingCommandQuota total="50" description="out_of_commands"/>-->
+	  <AgentQuitFromReachingCommandQuota>
+		<Quota commands="turn" quota="7" description="out_of_turn_commands" />
+		<Quota commands="move" quota="20" description="out_of_move_commands" />
+	  </AgentQuitFromReachingCommandQuota>
+	  <RewardForMissionEnd>
+	      <Reward description="out_of_turn_commands" reward="-1.0" />
+	      <Reward description="out_of_move_commands" reward="-1.0" />
+	      <Reward description="hit_a_blockade" reward="-1.0" />
+	      <Reward description="maze_end_goal" reward="1.0" />
+	      <Reward description="maze_end_not_goal" reward="0.0" />
+	  </RewardForMissionEnd>
+    </AgentHandlers>
+  </AgentSection>
+
+</Mission>

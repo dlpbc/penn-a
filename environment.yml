@@ -1,0 +1,24 @@
+name: py36
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - graphviz=2.38.0
+  - matplotlib=3.1.0
+  - numpy=1.16.4
+  - opencv=3.4.2
+  - pip=19.2.2
+  - py-opencv=3.4.2
+  - python=3.6.8
+  - python-graphviz=0.10.1
+  - pytorch=1.1.0
+  - scikit-image=0.15.0
+  - scikit-learn=0.21.2
+  - scipy=1.2.1
+  - torchvision=0.3.0
+  - tqdm=4.36.1
+  - pip:
+    - future==0.17.1
+    - gym==0.12.5
+
