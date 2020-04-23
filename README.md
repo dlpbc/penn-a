@@ -91,7 +91,7 @@ python test_mcaltenv.py log/path/to/exp/config log/path/to/saved/agent log/path/
 ```
 
 ### Disclaimer
-The codebase was refactored and cleaned up (some additions and deletions) before public release. If you encounter any issues with the code or spot a bug, please feel free to contact me. Feedback is welcomed.
+The codebase was refactored and cleaned up (some additions and deletions) before public release. If you encounter any issues with the code or spot a bug, please feel free to contact me (for example, open a github issue in this repo). Feedback is welcomed.
 
 ### Credits for baselines
 Publicly available codebase (with some modification) was employed to conduct experiments for baseline methods.
