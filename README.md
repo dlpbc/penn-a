@@ -18,7 +18,13 @@ pip installl -r requirements.txt
 ```
 
 ### CT-graph environment
-For now, the CT-graph environment is in use internally (and it may still undergo further development). It should be public available in the future. If you wish to get access to it, please feel free to contact me.
+~~For now, the CT-graph environment is in use internally (and it may still undergo further development). It should be public available in the future. If you wish to get access to it, please feel free to contact me.~~
+The CT-graph environment has been added to this repository. To install and use;
+```
+cd ctgraphenv
+pip install -r requirements.txt
+pip install -e .
+```
 
 ### Malmo Minecraft environment
 Follow the installation procedure from the official repo [link](https://github.com/Microsoft/malmo/tree/master/MalmoEnv)

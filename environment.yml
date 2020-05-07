@@ -1,4 +1,4 @@
-name: py36
+name: penn-a
 channels:
   - pytorch
   - conda-forge
