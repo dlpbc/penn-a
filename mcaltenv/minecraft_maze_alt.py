@@ -167,8 +167,8 @@ class MinecraftMazeAlt(Env):
 	
 	def _get_reward(self):
 		# if agent crashed (e.g. died in lava) return negative rweard
-		if self.crash is True: return -1.
-		elif self.terminate is True: return -1.
+		if self.crash is True: return -0.4
+		elif self.terminate is True: return -0.4
 		elif self.position.tolist() == self.goal.tolist(): return 1.
 		else: return 0.
 	

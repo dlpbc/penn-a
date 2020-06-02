@@ -108,5 +108,10 @@ Thank you to the author(s) of the repositories.
 
 ### Citation (BibTex)
 ```
-
+@inproceedings{ben2020evolving,
+title={Evolving inborn knowledge for fast adaptation in dynamic POMDP problems},
+author={Ben-Iwhiwhu, Eseoghene and Ladosz, Pawel and Dick, Jeffery and Chen, Wen-Hua and Pilly, Praveen and Soltoggio, Andrea},
+booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference},
+year={2020}
+}
 ```
